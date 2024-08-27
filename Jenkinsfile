@@ -14,14 +14,10 @@ pipeline {
                 }
             }
         }
-        stage('Docker Buildx') {
+        stage('Docker Build') {
             steps {
                 script {
-                    // Docker Buildx kullanarak çoklu platform desteği ile Docker imajı oluşturma
-                    sh '''
-                    docker buildx create --use
-                    docker buildx build --platform linux/amd64,linux/arm64 -t kadirortac35/my-java-app:latest .
-                    '''
+                    sh 'docker build -t kadirortac35/my-java-app:latest .'
                 }
             }
         }
