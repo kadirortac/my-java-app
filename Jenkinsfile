@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/kadirortac/my-java-app.git'
+               git branch: 'main', url: 'https://github.com/kadirortac/my-java-app.git'
             }
         }
         stage('Build') {
