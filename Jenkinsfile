@@ -34,11 +34,16 @@ pipeline {
             steps {
                 sshagent(['java-app-ssh-key']) {
                     sh '''
-                    ssh kadirortac@192.168.1.208 "docker pull kadirortac35/my-java-app:latest"
-                    ssh kadirortac@192.168.1.208 "docker run -d -p 8080:8080 kadirortac35/my-java-app:latest"
+                    ssh kadirortac@192.168.1.208 "
+                        docker pull kadirortac35/my-java-app:latest &&
+                        docker stop $(docker ps -q --filter ancestor=kadirortac35/my-java-app:latest) &&
+                        docker rm $(docker ps -q --filter ancestor=kadirortac35/my-java-app:latest) &&
+                        docker run -d -p 8080:8080 kadirortac35/my-java-app:latest
+                    "
                     '''
                 }
-            }
-        }
+    }
+}
+
     }
 }
