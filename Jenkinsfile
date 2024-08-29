@@ -32,7 +32,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-java-app', keyFile: '/var/lib/jenkins/.ssh/id_rsa')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-java-app', keyFile: '/home/kadirortac/.ssh/id_rsa')]) {
           sshagent(credentials: ['ssh-key-java-app']) {
             sh '''
             ssh kadirortac@192.168.1.208 "
@@ -47,4 +47,4 @@ pipeline {
       }
     }
   }
-}
+} 
