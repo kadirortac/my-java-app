@@ -33,7 +33,7 @@ pipeline {
     stage('Deploy') {
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-java-app', keyFile: 'id_rsa')]) {
-          sshagent(credentialsIds: ['ssh-key-java-app']) {
+          sshagent(credentials: ['ssh-key-java-app']) {
             sh '''
             ssh kadirortac@192.168.1.208 "
               docker pull kadirortac35/my-java-app:latest &&
