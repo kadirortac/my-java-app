@@ -33,7 +33,7 @@ pipeline {
     stage('Deploy') {
       steps {
         // Use the sshagent plugin correctly
-        sshagent(['ssh-key-java-app']) {
+        sshagent(['ssh-key']) {
           sh '''
           ssh kadirortac@192.168.1.208 "
             docker pull kadirortac35/my-java-app:latest &&
