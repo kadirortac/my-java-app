@@ -32,19 +32,18 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-java-app', keyFile: '/home/kadirortac/.ssh/id_rsa')]) {
-          sshagent(credentials: ['ssh-key-java-app']) {
-            sh '''
-            ssh kadirortac@192.168.1.208 "
-              docker pull kadirortac35/my-java-app:latest &&
-              docker stop $(docker ps -q --filter ancestor=kadirortac35/my-java-app:latest) &&
-              docker rm $(docker ps -q --filter ancestor=kadirortac35/my-java-app:latest) &&
-              docker run -d -p 8080:8080 kadirortac35/my-java-app:latest
-            "
-            '''
-          }
+        // Use the sshagent plugin correctly
+        sshagent(['ssh-key-java-app']) {
+          sh '''
+          ssh kadirortac@192.168.1.208 "
+            docker pull kadirortac35/my-java-app:latest &&
+            docker stop $(docker ps -q --filter ancestor=kadirortac35/my-java-app:latest) &&
+            docker rm $(docker ps -q --filter ancestor=kadirortac35/my-java-app:latest) &&
+            docker run -d -p 8080:8080 kadirortac35/my-java-app:latest
+          "
+          '''
         }
       }
     }
   }
-} 
+}
