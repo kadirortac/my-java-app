@@ -39,8 +39,13 @@ pipeline {
         // Use the sshagent plugin correctly
         sshagent(['ssh-key']) { // Replace 'ssh-key' with your SSH credential name in Jenkins
           script {
-            // Option 1: Add the host key to known_hosts
-            sh "ssh-keyscan 192.168.1.185 >> ~/.ssh/known_hosts"
+           // Create the .ssh directory if it doesn't exist
+            sh 'mkdir -p /var/lib/jenkins/.ssh'
+            // Give Jenkins write permissions to the directory
+            sh 'chmod 700 /var/lib/jenkins/.ssh'
+
+            // Add the server's host key to known_hosts
+            sh "ssh-keyscan 192.168.1.185 >> /var/lib/jenkins/.ssh/known_hosts"
 
             // Option 2: Disable strict host key checking (NOT RECOMMENDED for production)
             // sh "ssh -o StrictHostKeyChecking=no kadirortac@192.168.1.185 'docker image pull kadirortac35/java-app:latest && docker container run -d -p 8081:8081 kadirortac35/java-app:latest'"
