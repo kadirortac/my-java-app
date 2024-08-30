@@ -37,7 +37,7 @@ pipeline {
           sh '''
           ssh kadirortac@192.168.1.185 "
             docker image pull kadirortac35/java-app:latest &&
-            docker run container -d -p 8081:8081 kadirortac35/java-app:latest
+            docker container run  -d -p 8081:8081 kadirortac35/java-app:latest
           "
           '''
         }
